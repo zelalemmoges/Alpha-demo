@@ -1,4 +1,10 @@
 class ArticlesController < ApplicationController
+before_action :set_article, only: %i[ show edit update destroy ] # this will run the set_article method before the show, edit, update and destroy actions
+
+
+def home
+  @articles = Article.all # this will get all the articles from the database
+end
 def show
   @article = Article.find(params[:id])
 end
@@ -11,11 +17,11 @@ def new
 end
 
 def edit
-  @article = Article.find(params[:id]) # this will find the article by id and assign it to the @article instance variable
+  @article = Article.find(params[:id]) # this will find the article by idfrom the routes and assign it to the @article instance variable
   # so that we can use it in the edit view
 end
 def create
-  @article = Article.new(params.require(:article).permit(:title, :description))
+  @article = Article.new(article_params)
 
   if @article.save
     flash[:notice] = "Article was successfully created." # this will show a flash message to the user
@@ -28,7 +34,7 @@ end
 
 def update
   @article = Article.find(params[:id]) # this will find the article by id and assign it to the @article instance variable
-  if @article.update(params.require(:article).permit(:title, :description)) 
+  if @article.update(article_params) 
     flash[:notice] = "Article was successfully updated."
     redirect_to article_path(@article)
   else
@@ -36,4 +42,20 @@ def update
   end
 end
 
+def destroy
+  @article = Article.find(params[:id]) # this will find the article by id and assign it to the @article instance variable
+  @article.destroy # this will destroy the article
+  flash[:notice] = "Article was successfully destroyed."
+  redirect_to articles_path # this will redirect to the index page of the articles
+end
+
+private
+
+def set_article
+  @article = Article.find(params[:id]) # this will find the article by id and assign it to the @article instance variable
+end
+
+def article_params
+  params.require(:article).permit(:title, :description) # this will require the article params and permit the title and description
+end
 end
