@@ -1,4 +1,41 @@
-<h1> showing article details </h1>
+
+
+
+
+
+<h2 class="text-center"><%= @article.title %></h2>
+<div class="container">
+
+
+    
+
+        <div class="row justify-content-center mb-4">
+            <div class="col-8">
+                <div class="card text-center">
+                    <div class="card-header">
+                        by Zelalem Moges
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text text-left"><%= simple_format(@article.description) %></p>
+                        <%= link_to 'Edit', edit_article_path(@article.id), class: "btn btn-outline-info" %>
+                        <%= link_to 'Delete', article_path(@article.id), method: :delete, data: { turbo: false, confirm: "Are you sure?" }, class: "btn btn-outline-danger" %>
+                    </div>
+
+                    <div class="card-footer text-muted">
+                        Created <%= time_ago_in_words(@article.created_at) %> ago |
+                        Last edited <%= time_ago_in_words(@article.updated_at) %> ago
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+</div>
+
+
+
+
+
 <p>
   <strong>Title:</strong>
   <%= @article.title %>
