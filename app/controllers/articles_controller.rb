@@ -22,7 +22,7 @@ def edit
 end
 def create
   @article = Article.new(article_params)
-
+  @article.user = User.first # this will assign the first user to the article, you can change this to assign the current user if you have authentication set up
   if @article.save
     flash[:notice] = "Article was successfully created." # this will show a flash message to the user
     redirect_to article_path(@article) # first take the id of that instance then redirect to the show page of the article 
