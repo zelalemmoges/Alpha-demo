@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+   before_save { self.email = email.downcase } # This will convert the email to lowercase before saving it to the database
   has_many :articles
   validates :username, presence: true, 
             length: { minimum: 3, maximum: 25 },
@@ -9,5 +10,4 @@ class User < ApplicationRecord
                     uniqueness: { case_sensitive: false },
                     length: { maximum: 105 },
                     format: { with: VALID_EMAIL_REGEX }
-
 end
